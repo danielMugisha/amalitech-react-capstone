@@ -10,7 +10,6 @@ html {
 
 h1 {
 	padding: 0.77rem 0;
-	background-color: #010c3f;
 	text-align: center;
 	font-family: "Poppins", sans-serif;
 	font-size: 1.88rem;
@@ -26,10 +25,64 @@ h2 {
 	font-size: 1.55rem;
 }
 
+.topNav {
+	background-color: #010c3f;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 40px;
+}
+
+.profile {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	position: relative;
+}
+
+.profileImage {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin: 0 10px;
+}
+
+.menu {
+	color: white;
+	position: absolute;
+	right: 0;
+	top: 40px;
+	background-color: #010c3f;
+	padding: 0 10px;
+}
+
+.menu li {
+	padding: 10px;
+	font-weight: 600;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.menu li:hover {
+	text-decoration: underline;
+}
+
+.playlistsNumber {
+	font-size: 16px;
+	background-color: #6c41ec;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 5px;
+}
+
 .App {
 	height: 100%;
 	padding: 0 17% 10% 17%;
-	background-image: url("./background_photo_desktop.webp");
+	background-image: url("../../assets/background_photo_desktop.webp");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;

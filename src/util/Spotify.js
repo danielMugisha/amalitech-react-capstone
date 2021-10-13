@@ -1,29 +1,33 @@
+// https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#
+export const authEndpoint = "https://accounts.spotify.com/authorize";
+// Replace with your app's client ID, redirect URI and desired scopes
 const clientId = "e3d0d37ab20745c9a40e53b356f5f732";
-const redirectUri = "https://reverent-haibt-0870c5.netlify.app/";
-let accessToken;
+const redirectUri = "http://localhost:3000/";
+const scopes = [
+	"user-read-currently-playing",
+	"user-read-recently-played",
+	"user-read-playback-state",
+	"user-top-read",
+	"user-modify-playback-state",
+	"playlist-modify-private",
+	"user-read-private",
+];
+
+export const getTokenFromResponse = () => {
+	return window.location.hash
+		.substring(1)
+		.split("&")
+		.reduce((initial, item) => {
+			var parts = item.split("=");
+			initial[parts[0]] = decodeURIComponent(parts[1]);
+
+			return initial;
+		}, {});
+};
 
 const Spotify = {
-	getAccessToken() {
-		if (accessToken) {
-			return accessToken;
-		}
-
-		const accessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
-		const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
-		if (accessTokenMatch && expiresInMatch) {
-			accessToken = accessTokenMatch[1];
-			const expiresIn = Number(expiresInMatch[1]);
-			window.setTimeout(() => (accessToken = ""), expiresIn * 1000);
-			window.history.pushState("Access Token", null, "/"); // This clears the parameters, allowing us to grab a new access token when it expires.
-			return accessToken;
-		} else {
-			const accessUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`;
-			window.location = accessUrl;
-		}
-	},
-
-	search(term) {
-		const accessToken = Spotify.getAccessToken();
+	search(term, token) {
+		const accessToken = token;
 		return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
@@ -43,18 +47,15 @@ const Spotify = {
 					album: track.album.name,
 					uri: track.uri,
 				}));
-			})
-			.catch((error) => {
-				console.log(error);
 			});
 	},
 
-	savePlaylist(name, trackUris) {
+	savePlaylist(name, trackUris, token) {
 		if (!name || !trackUris.length) {
 			return;
 		}
 
-		const accessToken = Spotify.getAccessToken();
+		const accessToken = token;
 		const headers = { Authorization: `Bearer ${accessToken}` };
 		let userId;
 
@@ -82,5 +83,9 @@ const Spotify = {
 			});
 	},
 };
+
+export const accessUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+	"%20"
+)}&response_type=token&show_dialog=true`;
 
 export default Spotify;

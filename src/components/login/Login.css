@@ -1,0 +1,58 @@
+.login {
+	height: 75vh;
+	padding: 0 17% 10% 17%;
+	background-image: url("../../assets/background_photo_desktop.webp");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	font-family: "Work Sans", sans-serif;
+	font-weight: 500;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.welcome {
+	padding: 20px;
+	text-align: center;
+	margin-bottom: 70px;
+	line-height: 25px;
+}
+
+.linkButton {
+	padding: 10px 20px;
+	border: none;
+	outline: none;
+	border-radius: 12px;
+	background-color: #6c41ec;
+	cursor: pointer;
+	transition-duration: 1.5s;
+	position: relative;
+	overflow: hidden;
+	color: white;
+	font-weight: 800;
+	font-size: 28;
+	text-decoration: none;
+}
+
+.linkButton:after {
+	content: "";
+	background: #6c41ec;
+	display: block;
+	position: absolute;
+	padding-top: 300%;
+	padding-left: 350%;
+	margin-left: -20px !important;
+	margin-top: -120%;
+	opacity: 0;
+	transition: all 1.5s;
+}
+
+.linkButton:active:after {
+	padding: 0;
+	margin: 0;
+	opacity: 1;
+	transition: 0s;
+}
