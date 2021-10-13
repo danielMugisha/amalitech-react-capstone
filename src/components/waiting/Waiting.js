@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Button, Typography, Modal } from "@material-ui/core";
+import { Box, Typography, Modal } from "@material-ui/core";
 import { CircularProgress } from "@material-ui/core";
 
 const style = {
