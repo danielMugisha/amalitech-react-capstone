@@ -7,6 +7,8 @@ import Spotify, { getTokenFromResponse } from "../../util/Spotify";
 import Login from "../login/Login";
 import SpotifyWebApi from "spotify-web-api-js";
 import PlaylistDialog from "../playlistsDialog/PlaylistDialog";
+import Alert from "../alert/Alert";
+import Waiting from "../waiting/Waiting";
 
 const spotify = new SpotifyWebApi();
 class App extends React.Component {
@@ -21,6 +23,8 @@ class App extends React.Component {
 			existingPlaylists: null,
 			showMenu: false,
 			showPlaylists: false,
+			showAlert: false,
+			wait: false,
 		};
 		this.search = this.search.bind(this);
 		this.addTrack = this.addTrack.bind(this);
@@ -32,10 +36,16 @@ class App extends React.Component {
 	}
 
 	search = (term) => {
-		Spotify.search(term, this.state.token).then((searchResults) => {
-			console.log(searchResults);
-			this.setState({ searchResults: searchResults });
-		});
+		if (term) {
+			this.setState({ wait: true });
+			Spotify.search(term, this.state.token).then((searchResults) => {
+				console.log(searchResults);
+				this.setState({ searchResults: searchResults });
+				this.setState({ wait: false });
+			});
+		} else {
+			this.setState({ showAlert: true });
+		}
 	};
 
 	addTrack = (track) => {
@@ -59,17 +69,34 @@ class App extends React.Component {
 	};
 
 	savePlaylist = () => {
-		const trackUris = this.state.playlistTracks.map((track) => track.uri);
-		Spotify.savePlaylist(
-			this.state.playlistName,
-			trackUris,
-			this.state.token
-		).then(() => {
-			this.setState({
-				playlistName: "New Playlist",
-				playlistTracks: [],
-			});
-		});
+		if (this.state.playlistName) {
+			if (this.state.playlistTracks.length) {
+				this.setState({ wait: true });
+				const trackUris = this.state.playlistTracks.map((track) => track.uri);
+				Spotify.savePlaylist(
+					this.state.playlistName,
+					trackUris,
+					this.state.token
+				).then(() => {
+					this.setState({
+						existingPlaylists: [
+							...this.state.existingPlaylists,
+							{
+								name: this.state.playlistName,
+								tracks: this.state.playlistTracks,
+							},
+						],
+						playlistName: "",
+						playlistTracks: [],
+					});
+					this.setState({ wait: false });
+				});
+			} else {
+				this.setState({ showAlert: true });
+			}
+		} else {
+			this.setState({ showAlert: true });
+		}
 	};
 
 	handleClick = () => {
@@ -86,6 +113,10 @@ class App extends React.Component {
 
 	handleOpen = () => {
 		this.setState({ showPlaylists: true });
+	};
+
+	closeAlert = () => {
+		this.setState({ showAlert: false });
 	};
 
 	componentDidMount = () => {
@@ -110,10 +141,16 @@ class App extends React.Component {
 		return (
 			<>
 				<PlaylistDialog
-					playlists={this.state.existingPlaylists}
 					open={this.state.showPlaylists}
 					onClose={this.handleClose}
+					playlists={this.state.existingPlaylists}
 				/>
+				<Alert
+					open={this.state.showAlert}
+					onClose={this.closeAlert}
+					content="Empty field not allowed"
+				/>
+				<Waiting open={this.state.wait} />
 				<div className="topNav">
 					<h1>
 						Ja<span className="highlight">mmm</span>ing
@@ -131,7 +168,9 @@ class App extends React.Component {
 								{this.state.showMenu ? (
 									<div className="menu">
 										<ul>
-											<li onClick={this.handleOpen}>
+											<li
+												onClick={() => this.setState({ showPlaylists: true })}
+											>
 												Playlists{" "}
 												<div className="playlistsNumber">
 													{this.state.existingPlaylists?.length}

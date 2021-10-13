@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, Button, Typography, Modal } from "@material-ui/core";
-import "./PlaylistDialog.css";
+import { CircularProgress } from "@material-ui/core";
 
 const style = {
 	position: "absolute",
@@ -8,24 +8,21 @@ const style = {
 	left: "50%",
 	transform: "translate(-50%, -50%)",
 	width: 400,
-	bgcolor: "background.paper",
-	outline: "none",
+	display: "flex",
+	justifyContent: "center",
 	p: 4,
-	maxHeight: "400px",
-	overflow: "scroll",
 };
 
-const PlaylistDialog = ({ open, onClose, playlists }) => {
+const Waiting = ({ open }) => {
 	return (
 		<div>
 			<Modal
 				open={open}
-				onClose={onClose}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
 			>
 				<Box sx={style}>
-					<button
+					{/* <button
 						style={{
 							backgroundColor: "transparent",
 							border: "none",
@@ -42,17 +39,9 @@ const PlaylistDialog = ({ open, onClose, playlists }) => {
 						onClick={onClose}
 					>
 						+
-					</button>
-					<Typography id="modal-modal-title" variant="h6" component="h2">
-						Your Playlists
-					</Typography>
+					</button> */}
 					<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-						{playlists?.map((p) => (
-							<div className="p-wrapper">
-								<div className="p-name">{p.name}</div>
-								<div className="p-songs">{p.tracks.total} Songs</div>
-							</div>
-						))}
+						<CircularProgress color="inherit" />
 					</Typography>
 				</Box>
 			</Modal>
@@ -60,4 +49,4 @@ const PlaylistDialog = ({ open, onClose, playlists }) => {
 	);
 };
 
-export default PlaylistDialog;
+export default Waiting;

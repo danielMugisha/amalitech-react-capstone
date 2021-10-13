@@ -1,0 +1,15 @@
+.p-wrapper {
+	margin: 10px 20px;
+	border-bottom: 1px solid black;
+}
+
+.p-name {
+	font-weight: 700;
+	font-size: 22px;
+}
+
+.p-songs {
+	color: gray;
+	font-size: 16px;
+	font-style: italic;
+}

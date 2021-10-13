@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Box, Button, Typography, Modal } from "@material-ui/core";
-import "./PlaylistDialog.css";
 
 const style = {
 	position: "absolute",
@@ -11,11 +10,9 @@ const style = {
 	bgcolor: "background.paper",
 	outline: "none",
 	p: 4,
-	maxHeight: "400px",
-	overflow: "scroll",
 };
 
-const PlaylistDialog = ({ open, onClose, playlists }) => {
+const Alert = ({ open, onClose, content }) => {
 	return (
 		<div>
 			<Modal
@@ -44,15 +41,10 @@ const PlaylistDialog = ({ open, onClose, playlists }) => {
 						+
 					</button>
 					<Typography id="modal-modal-title" variant="h6" component="h2">
-						Your Playlists
+						Attention
 					</Typography>
 					<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-						{playlists?.map((p) => (
-							<div className="p-wrapper">
-								<div className="p-name">{p.name}</div>
-								<div className="p-songs">{p.tracks.total} Songs</div>
-							</div>
-						))}
+						<p>{content}</p>
 					</Typography>
 				</Box>
 			</Modal>
@@ -60,4 +52,4 @@ const PlaylistDialog = ({ open, onClose, playlists }) => {
 	);
 };
 
-export default PlaylistDialog;
+export default Alert;
