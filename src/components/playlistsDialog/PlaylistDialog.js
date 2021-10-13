@@ -16,10 +16,6 @@ const PlaylistDialog = ({ playlists, open, onClose }) => {
 		onClose();
 	};
 
-	const handleListItemClick = (value) => {
-		onClose(value);
-	};
-
 	return (
 		<Dialog onClose={handleClose} open={open}>
 			<DialogTitle>Set backup account</DialogTitle>
