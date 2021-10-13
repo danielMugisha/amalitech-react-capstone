@@ -9,7 +9,8 @@ This project aims at providing the user with capability to listen to music of hi
 we use spotify free API to make it easier.
 
 ## How to run
+
 Download the zip file and extract it or clone the repo
-Open the project folder in your favorite code editor 
+Open the project folder in your favorite code editor
 In the terminal run "npm install" to install all the application dependancies you will need nodejs installed prior to this
-In the terminal still run npm start and if you did everything as instructed you should see the the application running in the browser make sure you run on port 3000 
+In the terminal still run npm start and if you did everything as instructed you should see the the application running in the browser make sure to update redirect url and register it in developer dashboard, same as your sample users.
