@@ -43,6 +43,9 @@ const Spotify = {
 					album: track.album.name,
 					uri: track.uri,
 				}));
+			})
+			.catch((error) => {
+				console.log(error);
 			});
 	},
 
