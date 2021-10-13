@@ -147,7 +147,7 @@ class App extends React.Component {
 							<img
 								className="profileImage"
 								src={this.state.user.images[0].url}
-								alt="photo"
+								alt="profile"
 							/>
 						</div>
 					) : (
