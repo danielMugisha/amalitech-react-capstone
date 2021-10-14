@@ -16,9 +16,9 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			searchResults: [],
-			playlistName: "New Playlist",
+			playlistName: "",
 			playlistTracks: [],
-			token: null,
+			token: sessionStorage.token ? sessionStorage.token : null,
 			user: null,
 			existingPlaylists: null,
 			showMenu: false,
@@ -104,6 +104,7 @@ class App extends React.Component {
 	};
 
 	logout = () => {
+		sessionStorage.clear();
 		this.setState({ token: null, user: null });
 	};
 
@@ -124,10 +125,19 @@ class App extends React.Component {
 		const _token = hash.access_token;
 		window.location.hash = "";
 		if (_token) {
+			sessionStorage.setItem("token", _token);
 			this.setState({
-				token: _token,
+				token: sessionStorage.token,
 			});
 			spotify.setAccessToken(_token);
+			spotify.getMe().then((_user) => {
+				this.setState({ user: _user });
+				spotify
+					.getUserPlaylists(_user.id)
+					.then((res) => this.setState({ existingPlaylists: res.items }));
+			});
+		} else if (this.state.token) {
+			spotify.setAccessToken(this.state.token);
 			spotify.getMe().then((_user) => {
 				this.setState({ user: _user });
 				spotify
