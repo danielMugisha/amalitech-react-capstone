@@ -1,7 +1,7 @@
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 const clientId = "e3d0d37ab20745c9a40e53b356f5f732";
-//const redirectUri = "https://reverent-haibt-0870c5.netlify.app/";
-const redirectUri = "http://localhost:3000/";
+const redirectUri = "https://reverent-haibt-0870c5.netlify.app/";
+//const redirectUri = "http://localhost:3000/";
 const scopes = [
 	"user-read-currently-playing",
 	"user-read-recently-played",
